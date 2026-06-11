@@ -6,76 +6,159 @@
   <title>背單字卡片</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-ice text-deep">
+<body class="bg-slate-950 text-slate-100 antialiased">
   <div class="app-shell">
-    <header class="app-header">
-      <div>
-        <h1>背單字卡片</h1>
-        <p class="text-slate">純前端單字卡，卡片翻頁 + 管理頁面</p>
+    <header class="header-panel">
+      <div class="hero-panel">
+        <p class="eyebrow">智能字彙成長平台</p>
+        <h1 class="hero-title">
+          專注於 <span class="hero-gradient">產品級暗黑風</span> 單字學習
+        </h1>
+        <p class="hero-copy">結合 Apple、Notion、Linear、Stripe 風格的深色 SaaS 介面，打造高級感且專業的字彙學習體驗。</p>
       </div>
-      <nav class="page-nav">
-        <button id="studyPageBtn" class="active bg-ice text-deep">學習頁</button>
-        <button id="managePageBtn" class="bg-ice text-deep">管理頁</button>
-      </nav>
+      <div class="hero-actions">
+        <div class="tabs" role="tablist">
+          <button id="studyPageBtn" class="tab active" type="button">學習頁</button>
+          <button id="managePageBtn" class="tab" type="button">管理頁</button>
+        </div>
+      </div>
     </header>
 
-    <main class="min-h-[72vh]">
+    <main class="main-content">
       <section id="studyPage" class="page active">
-        <div class="card-area">
-          <div id="vocabCard" class="card">
-            <div class="card-face card-front">
-              <div class="card-content">
-                <span class="label">英文單字</span>
-                <h2 id="wordDisplay">請新增單字</h2>
-              </div>
+        <div class="study-grid">
+          <div class="study-left">
+            <div class="stats-grid">
+              <article class="metric-card">
+                <p class="metric-label">總單字數</p>
+                <p id="totalWords" class="metric-value">0</p>
+              </article>
+              <article class="metric-card">
+                <p class="metric-label">已完成</p>
+                <p id="completedCount" class="metric-value">0</p>
+              </article>
+              <article class="metric-card">
+                <p class="metric-label">待複習</p>
+                <p id="reviewCount" class="metric-value">0</p>
+              </article>
+              <article class="metric-card">
+                <p class="metric-label">學習進度</p>
+                <p id="progressPercent" class="metric-value">0%</p>
+              </article>
             </div>
-            <div class="card-face card-back">
-              <div class="card-content">
-                <span class="label">單字資訊</span>
-                <div class="info-row"><strong>翻譯：</strong><span id="translationDisplay">-</span></div>
-                <div class="info-row"><strong>詞性：</strong><span id="posDisplay">-</span></div>
-                <div class="info-row"><strong>例句：</strong><span id="exampleDisplay">-</span></div>
-                <div class="info-row"><strong>字根分析：</strong><span id="rootDisplay">-</span></div>
+
+            <div class="card-shell">
+              <div id="vocabCard" class="card-block">
+                <div class="card-face card-front">
+                  <div class="card-content">
+                    <span class="label">英文單字</span>
+                    <h2 id="wordDisplay">請新增單字</h2>
+                  </div>
+                </div>
+                <div class="card-face card-back">
+                  <div class="card-content">
+                    <span class="label">單字資訊</span>
+                    <div class="info-row"><strong>翻譯：</strong><span id="translationDisplay">-</span></div>
+                    <div class="info-row"><strong>詞性：</strong><span id="posDisplay">-</span></div>
+                    <div class="info-row"><strong>例句：</strong><span id="exampleDisplay">-</span></div>
+                    <div class="info-row"><strong>字根分析：</strong><span id="rootDisplay">-</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-controls">
+                <button id="prevCardBtn" class="btn-secondary" type="button">上一張</button>
+                <button id="nextCardBtn" class="btn-secondary" type="button">下一張</button>
+                <span id="cardCounter" class="card-counter">0 / 0</span>
               </div>
             </div>
           </div>
-        </div>
-        <div class="controls">
-          <button id="prevCardBtn">上一張</button>
-          <button id="nextCardBtn">下一張</button>
-          <span id="cardCounter">0 / 0</span>
+
+          <aside class="study-right">
+            <div class="info-card">
+              <div class="info-header">
+                <p class="eyebrow">詳細資訊</p>
+                <h2 class="section-title">目前字彙分析</h2>
+              </div>
+
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <p class="detail-label">翻譯</p>
+                  <p id="panelTranslation" class="detail-value">-</p>
+                </div>
+                <div class="detail-item">
+                  <p class="detail-label">詞性</p>
+                  <p id="panelPos" class="detail-value">-</p>
+                </div>
+                <div class="detail-item">
+                  <p class="detail-label">例句</p>
+                  <p id="panelExample" class="detail-value">-</p>
+                </div>
+                <div class="detail-item">
+                  <p class="detail-label">字根分析</p>
+                  <p id="panelRoot" class="detail-value">-</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="progress-card">
+              <div class="progress-header">
+                <p class="eyebrow">進度儀表</p>
+                <h2 class="section-title">當前學習階段</h2>
+              </div>
+              <div class="progress-bar-wrapper">
+                <div class="progress-bar">
+                  <div id="progressBarFill" class="progress-fill"></div>
+                </div>
+                <p id="progressPercentFooter" class="progress-text">0% 進度</p>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
       <section id="managePage" class="page">
-        <div class="manage-panel">
-          <form id="wordForm">
-            <h2>新增單字</h2>
-            <label>英文單字
-              <input id="englishInput" type="text" placeholder="輸入英文單字" autocomplete="off" required />
-            </label>
-            <label>翻譯
-              <input id="translationInput" type="text" placeholder="中文翻譯" />
-            </label>
-            <label>詞性
-              <input id="posInput" type="text" placeholder="noun / verb / adj..." />
-            </label>
-            <label>例句
-              <textarea id="exampleInput" rows="3" placeholder="例句"></textarea>
-            </label>
-            <label>字根分析
-              <textarea id="rootInput" rows="2" placeholder="字根 / 前綴 / 片語分析"></textarea>
-            </label>
+        <div class="manage-grid">
+          <form id="wordForm" class="form-card" novalidate>
+            <div class="form-header">
+              <p class="eyebrow">卡片管理</p>
+              <h2 class="section-title">新增 / 編輯單字</h2>
+            </div>
+
+            <div class="form-field">
+              <label class="field-label">英文單字</label>
+              <input id="englishInput" class="input-field" type="text" placeholder="輸入英文單字" autocomplete="off" required />
+            </div>
+            <div class="form-field">
+              <label class="field-label">翻譯</label>
+              <input id="translationInput" class="input-field" type="text" placeholder="中文翻譯" />
+            </div>
+            <div class="form-field">
+              <label class="field-label">詞性</label>
+              <input id="posInput" class="input-field" type="text" placeholder="noun / verb / adj..." />
+            </div>
+            <div class="form-field">
+              <label class="field-label">例句</label>
+              <textarea id="exampleInput" class="input-field textarea-field" rows="3" placeholder="例句"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="field-label">字根分析</label>
+              <textarea id="rootInput" class="input-field textarea-field" rows="2" placeholder="字根 / 前綴 / 片語分析"></textarea>
+            </div>
+
             <div class="form-actions">
-              <button id="autoFillBtn" type="button">自動填入</button>
-              <button id="addWordBtn" type="submit">新增單字</button>
+              <button id="autoFillBtn" class="btn-primary" type="button">自動填入</button>
+              <button id="addWordBtn" class="btn-primary" type="submit">新增單字</button>
             </div>
             <p class="hint">按下「自動填入」會呼叫線上 API，補齊翻譯、詞性、例句與字根分析。</p>
           </form>
 
           <div class="word-list-panel">
-            <h2>單字列表</h2>
-            <ul id="wordList"></ul>
+            <div class="panel-header">
+              <p class="eyebrow">單字總覽</p>
+              <h2 class="section-title">單字列表</h2>
+            </div>
+            <ul id="wordList" class="word-list"></ul>
           </div>
         </div>
       </section>

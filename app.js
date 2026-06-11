@@ -54,6 +54,8 @@ function renderStudy() {
     exampleDisplay.textContent = '-';
     rootDisplay.textContent = '-';
     cardCounter.textContent = '0 / 0';
+    updatePanelDetails({ translation: '-', pos: '-', example: '-', root: '-' });
+    updateStats();
     return;
   }
   const card = cards[activeIndex];
@@ -63,12 +65,53 @@ function renderStudy() {
   exampleDisplay.textContent = card.example || '尚未填寫';
   rootDisplay.textContent = card.root || '尚未填寫';
   cardCounter.textContent = `${activeIndex + 1} / ${cards.length}`;
+  updatePanelDetails(card);
+  updateStats();
+}
+
+function updatePanelDetails(card) {
+  const panelTranslation = document.getElementById('panelTranslation');
+  const panelPos = document.getElementById('panelPos');
+  const panelExample = document.getElementById('panelExample');
+  const panelRoot = document.getElementById('panelRoot');
+
+  if (!panelTranslation || !panelPos || !panelExample || !panelRoot) return;
+
+  panelTranslation.textContent = card.translation || '尚未填寫';
+  panelPos.textContent = card.pos || '尚未填寫';
+  panelExample.textContent = card.example || '尚未填寫';
+  panelRoot.textContent = card.root || '尚未填寫';
+}
+
+function updateStats() {
+  const totalWordsEl = document.getElementById('totalWords');
+  const completedCountEl = document.getElementById('completedCount');
+  const reviewCountEl = document.getElementById('reviewCount');
+  const progressPercentEl = document.getElementById('progressPercent');
+  const progressPercentFooter = document.getElementById('progressPercentFooter');
+
+  const total = cards.length;
+  const completed = cards.filter((card) => card.translation && card.pos && card.example && card.root).length;
+  const review = Math.max(0, total - completed);
+  const progress = total ? Math.round((completed / total) * 100) : 0;
+
+  if (totalWordsEl) totalWordsEl.textContent = total;
+  if (completedCountEl) completedCountEl.textContent = completed;
+  if (reviewCountEl) reviewCountEl.textContent = review;
+  if (progressPercentEl) progressPercentEl.textContent = `${progress}%`;
+  if (progressPercentFooter) progressPercentFooter.textContent = `${progress}% 進度`;
+
+  const progressBarFill = document.getElementById('progressBarFill');
+  if (progressBarFill) {
+    progressBarFill.style.width = `${progress}%`;
+  }
 }
 
 function renderList() {
   wordList.innerHTML = '';
   if (!cards.length) {
     wordList.innerHTML = '<li class="word-item"><div>目前尚無單字，請新增。</div></li>';
+    updateStats();
     return;
   }
 
